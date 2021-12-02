@@ -9,8 +9,8 @@ readInput = do
   txt <- readFile "input.txt"
   pure $ run $ lines txt
 
-run :: [String] -> Int
-run = result . foldr (move . parse) start
+run :: [String] -> Int 
+run = result . foldl (flip (move . parse)) start
 
 data Move = Forward Int | Up Int | Down Int
 
@@ -21,21 +21,21 @@ parse (stripPrefix "down"    -> Just v) = Down    $ read v
 parse _ = undefined
 
 data Position = Position
-  { depth   :: Int
+  { depth      :: Int
   , horizontal :: Int
+  , aim        :: Int
   }
 
 start :: Position
-start = Position 0 0
+start = Position 0 0 0
 
 result :: Position -> Int
-result (Position d h) = d * h
+result (Position d h _) = d * h
 
 move :: Move -> Position -> Position
-move (Forward x) (Position d h) = Position d (h + x)
-move (Up x)      (Position d h) = Position (d - x) h
-move (Down x)    (Position d h) = Position (d + x) h
-
+move (Forward x) (Position d h a) = Position (d + a * x) (h + x) a
+move (Up x)      (Position d h a) = Position d h (a - x)
+move (Down x)    (Position d h a) = Position d h (a + x)
 
 testInput =
   [ "forward 5"
