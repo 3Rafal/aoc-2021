@@ -1,7 +1,7 @@
 module Day03 where
 
-readInput :: IO Int
-readInput = do
+pt1 :: IO Int
+pt1 = do
   txt <- readFile "input.txt"
   pure $ run $ lines txt
 
@@ -15,6 +15,9 @@ data ColumnBits = ColumnBits
 
 emptyColumnBits :: ColumnBits
 emptyColumnBits = ColumnBits 0 0
+
+columnBits :: Int -> [String] -> ColumnBits
+columnBits index = foldr (add . (!! index)) emptyColumnBits
 
 mostCommon :: ColumnBits -> Char
 mostCommon (ColumnBits z o) =
@@ -57,7 +60,43 @@ epsilon = bitsToInt . fmap leastCommon
 
 result :: ReportSummary -> Int
 result rs = gamma rs * epsilon rs
+
+oxygen :: ColumnBits -> Char
+oxygen (ColumnBits z o)
+  | z == o = '1'
+  | z < o  = '1'
+  | z > o  = '0'
+  
+scrubber :: ColumnBits -> Char
+scrubber (ColumnBits z o)
+  | z == o = '0'
+  | z < o  = '0'
+  | z > o  = '1'
+  
+rating :: (ColumnBits -> Char) -> [String] -> Int
+rating p strs =
+  bitsToInt
+  $ go strs [0..len]
+  where
+    go :: [String] -> [Int] -> String
+    go [s] _ = s
+    go ss (i:is) =
+      let cbs = columnBits i ss in
+      go (filter (pred cbs i) ss) is
+    go _ _ = undefined
+      
+    len :: Int
+    len = length $ head strs
+
+    pred :: ColumnBits -> Int -> String -> Bool
+    pred cbs i str =
+        p cbs == str !! i
     
+pt2 :: IO Int
+pt2 = do
+  txt <- readFile "input.txt"
+  pure $ (\ls -> rating oxygen ls * rating scrubber ls) $ lines txt
+  
 testInput =
   [ "00100"
   , "11110"
