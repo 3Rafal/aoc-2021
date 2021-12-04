@@ -69,10 +69,9 @@ bRound' :: Int -> [Grid] -> (Maybe Int, [Grid])
 bRound' i gs =
     case (winner, crossed) of
       (Just w, [x]) -> (Just (result i w) , [x])
-      (Just _, _)   -> (Nothing, removedWinner)
-      (Nothing,_)   -> (Nothing, crossed)
+      _   -> (Nothing, removedWinners)
   where
-    removedWinner = filter ((/= winner) . pure) crossed
+    removedWinners = filter (not . won) crossed
     winner = find won crossed
     crossed = map (crossOut i) gs
     
