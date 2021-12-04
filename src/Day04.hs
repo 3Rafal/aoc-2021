@@ -62,7 +62,7 @@ run s =
 
 pt1 :: IO Int
 pt1 = do
-  txt <- readFile "src/Day04.txt"
+  txt <- readFile "input/Day04.txt"
   pure $ run txt
   
 bRound' :: Int -> [Grid] -> (Maybe Int, [Grid])
@@ -87,7 +87,7 @@ run' s =
     
 pt2 :: IO Int
 pt2 = do
-  txt <- readFile "src/Day04.txt"
+  txt <- readFile "input/Day04.txt"
   pure $ run' txt
   
 testInput :: String

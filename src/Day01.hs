@@ -6,7 +6,7 @@ type Solution = [Int] -> Int
 
 readInput :: Solution -> IO Int
 readInput f = do
-  txt <- readFile "Day01.txt"
+  txt <- readFile "input/Day01.txt"
   pure $ run f $ lines txt
 
 run :: Solution -> [String] -> Int

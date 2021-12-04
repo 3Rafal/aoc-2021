@@ -6,7 +6,7 @@ import Data.List ( stripPrefix )
 
 readInput :: IO Int
 readInput = do
-  txt <- readFile "Day02.txt"
+  txt <- readFile "input/Day02.txt"
   pure $ run $ lines txt
 
 run :: [String] -> Int 

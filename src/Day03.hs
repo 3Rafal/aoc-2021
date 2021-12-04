@@ -2,7 +2,7 @@ module Day03 where
 
 pt1 :: IO Int
 pt1 = do
-  txt <- readFile "Day03.txt"
+  txt <- readFile "input/Day03.txt"
   pure $ run $ lines txt
 
 run :: [String] -> Int 
@@ -94,7 +94,7 @@ rating p strs =
     
 pt2 :: IO Int
 pt2 = do
-  txt <- readFile "input.txt"
+  txt <- readFile "input/Day03.txt"
   pure $ (\ls -> rating oxygen ls * rating scrubber ls) $ lines txt
   
 testInput :: [[Char]]
