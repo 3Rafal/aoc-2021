@@ -6,7 +6,7 @@ type Solution = [Int] -> Int
 
 readInput :: Solution -> IO Int
 readInput f = do
-  txt <- readFile "input.txt"
+  txt <- readFile "Day01.txt"
   pure $ run f $ lines txt
 
 run :: Solution -> [String] -> Int
@@ -34,6 +34,7 @@ countLarger' xs =
 pt2 :: IO Int
 pt2 = readInput countLarger'
 
+testInput :: [[Char]]
 testInput =
   [ "199"
   , "200"

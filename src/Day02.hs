@@ -6,7 +6,7 @@ import Data.List ( stripPrefix )
 
 readInput :: IO Int
 readInput = do
-  txt <- readFile "input.txt"
+  txt <- readFile "Day02.txt"
   pure $ run $ lines txt
 
 run :: [String] -> Int 
@@ -37,6 +37,7 @@ move (Forward x) (Position d h a) = Position (d + a * x) (h + x) a
 move (Up x)      (Position d h a) = Position d h (a - x)
 move (Down x)    (Position d h a) = Position d h (a + x)
 
+testInput :: [[Char]]
 testInput =
   [ "forward 5"
   , "down 5"

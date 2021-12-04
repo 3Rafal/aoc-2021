@@ -2,7 +2,7 @@ module Day03 where
 
 pt1 :: IO Int
 pt1 = do
-  txt <- readFile "input.txt"
+  txt <- readFile "Day03.txt"
   pure $ run $ lines txt
 
 run :: [String] -> Int 
@@ -48,7 +48,7 @@ bitsToInt s = sum $ zipWith f (reverse [0..hiPow]) s
   where
     hiPow = length s - 1
     f :: Int -> Char -> Int
-    f i '0' = 0
+    f _ '0' = 0
     f i '1' = 2 ^ i
     f _ _ = undefined
 
@@ -82,14 +82,14 @@ rating p strs =
     go [s] _ = s
     go ss (i:is) =
       let cbs = columnBits i ss in
-      go (filter (pred cbs i) ss) is
+      go (filter (predicate cbs i) ss) is
     go _ _ = undefined
       
     len :: Int
     len = length $ head strs
 
-    pred :: ColumnBits -> Int -> String -> Bool
-    pred cbs i str =
+    predicate :: ColumnBits -> Int -> String -> Bool
+    predicate cbs i str =
         p cbs == str !! i
     
 pt2 :: IO Int
@@ -97,6 +97,7 @@ pt2 = do
   txt <- readFile "input.txt"
   pure $ (\ls -> rating oxygen ls * rating scrubber ls) $ lines txt
   
+testInput :: [[Char]]
 testInput =
   [ "00100"
   , "11110"
