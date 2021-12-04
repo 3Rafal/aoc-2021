@@ -10,3 +10,4 @@ library
   ghc-options:         -Wall -fno-warn-unused-do-bind
   exposed-modules:     Day01, Day02, Day03
   build-depends:       base
+                     , matrix
