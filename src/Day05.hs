@@ -6,7 +6,7 @@ import Data.List.Split ( splitOn )
 import Data.Map (fromListWith, toList)
 
 run :: String -> Int
-run = overlaps . allPos . parse
+run = overlaps . concatMap straightLine . parse
 
 pt1 :: IO Int
 pt1 = do
@@ -23,11 +23,8 @@ overlaps = length . filter ((> 1) . snd) . frequency
 frequency :: (Ord a) => [a] -> [(a, Int)]
 frequency xs = toList (fromListWith (+) [(x, 1) | x <- xs])
 
-allPos :: [Line] -> [Pos]
-allPos = concatMap straightLine
-
 range :: Int -> Int -> [Int]
-range x x' = if x < x' then [x..x'] else [x'..x]
+range x x' = if x < x' then [x..x'] else reverse [x'..x]
 
 straightLine :: Line -> [Pos]
 straightLine ((x,y),(x',y')) | x == x' = fmap (x,) (range y y')
@@ -35,12 +32,27 @@ straightLine ((x,y),(x',y')) | y == y' = fmap (,y) (range x x')
 straightLine _ = []
 
 parse :: String -> [Line]
-parse = map line . lines
+parse = map ln . lines
   where
-    line = mapTuple tuple  . splitArrow
+    ln = mapTuple tuple  . splitArrow
     tuple = mapTuple ((+ 1 ) . read) . splitOn ","
     mapTuple f x = (f (x !! 0), f (x !! 1))
     splitArrow = splitOn "->"
+
+-- pt2
+run' :: String -> Int
+run' = overlaps . concatMap line . parse
+
+pt2 :: IO Int
+pt2 = do
+  txt <- readFile "input/Day05.txt"
+  pure $ run' txt
+
+line :: Line -> [Pos]
+line ((x,y),(x',y')) | x == x' = fmap (x,) (range y y')
+line ((x,y),(x',y')) | y == y' = fmap (,y) (range x x')
+line ((x,y),(x',y')) | abs (x-x') == abs (y-y') = zip (range x x') (range y y')
+line _ = []
 
 testInput :: String
 testInput =
