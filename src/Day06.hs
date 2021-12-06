@@ -14,6 +14,11 @@ pt1 = do
   txt <- readFile "input/Day06.txt"
   pure $ run 80 txt
 
+pt2 :: IO Int
+pt2 = do
+  txt <- readFile "input/Day06.txt"
+  pure $ run 256 txt
+  
 type Fishes = Vector Int
 
 empty :: Fishes
