@@ -13,3 +13,4 @@ library
                      , containers
                      , matrix
                      , split
+                     , vector
